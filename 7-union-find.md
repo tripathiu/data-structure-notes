@@ -141,7 +141,7 @@ Then directly point it to the root.
 ![](7-union-find/p3.png)
 
 When we do a find operation, we do not have to traverse a path but immedieately
-point to it which is almost linear time. Unify both the group now...
+point to it which is amortized constant time. Unify both the group now...
 
 ![](7-union-find/p4.png)
 
