@@ -94,3 +94,86 @@ If text = `AZAZA`, n = 5
 5(5+1)/2 - sum (LCP(i)) = 9
 
 9 unique substring.
+
+# Longest Common Substring (LCS) 
+
+## Problem Statement
+
+*Suppose we have n strings, find the longest common substring that appears in*
+*atleast 2<=k<=n of the strings.*
+
+Consider n=3, k=2, with:
+
+S1 = `aBCA`
+S2 = `BCAd`
+S3 = `daca`
+
+Dynamic Programming is the traditional way with complexity O(n1*n2*n3*...*nm).
+
+Alternative method is use a suffix array.
+
+
+Consider again
+
+S1 = `abca`
+S2 = `bcad`
+S3 = `daca`
+
+To find the LCS, first create a new larger string T which is the concatation of
+all the strings si separated by unique sentinels.
+
+```
+T = s1+"#"+s1+"$"+s3+"%"
+  = abca#bcad$daca%
+```
+
+**Note:** The sentinels must be unique and lexicographically less than any of
+the characters contained in any of the strings si.
+
+Now create the suffix array and ignore the ones beginning with any of the sentinels.
+
+![](11-suffix-arrays/1.png)
+
+### Longest common solution for k = 2
+
+We need three suffixes (3 colors) with the max value
+
+![](11-suffix-arrays/2.png)
+
+the string `ca` of length 2.
+
+### Longest common solution for k = 2
+
+![](11-suffix-arrays/3.png)
+
+The substring belongs to s1, s2 and s3
+
+
+## Sliding window technique
+
+In case the colors are not next to each other.
+
+![](11-suffix-arrays/4.png)
+
+For each valid window, perform a range query on the LCP array bw the bottom and
+top endpoints. The LCS will be the maximum LCP value for all possible windows.
+
+The min sliding range query problem can be solved in a total of O(n) time for
+all windows!
+
+Alternatively, can use min range query DS such as a *segment tree* to perform
+queries in log(n) time which may be easier but slightly slower running for a
+total of `O(nlogn)`
+
+![](11-suffix-arrays/5.png)
+
+When missing colors in the ARRAY, expand window. Perform query.
+
+When having enough colors, reduce window size. Perform query.
+
+When having enough colors, reduce window size. Cannot perform query (green is
+not there). So expand window.
+
+
+
+
