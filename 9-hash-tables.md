@@ -242,4 +242,184 @@ Linear probing, quadratic probing, double hashing are all subject to this
 issue. *Probing functions used with these methods are very specific.*
 
 
+# Linear Probing
+
+## What is Linear Probing
+
+Formula:
+
+```
+P(x) = ax + b
+```
+
+Some linear functions are unable to produce a full cycle of size N.
+
+Example:
+
+```
+P(x) = 3x
+H(k) = 3
+Table Size = N = 9
+
+H(k) + P(0) mod N = 4
+H(k) + P(1) mod N = 7
+H(k) + P(2) mod N = 1
+H(k) + P(3) mod N = 4
+H(k) + P(4) mod N = 7
+H(k) + P(5) mod N = 1
+```
+ 
+The cycle {4,7,1} makes it impossible to reach the buckets {0,2,3,5,6,8}.
+This would create an infinite loop if all the buckets {4,7,1} are full.
+
+
+## Problem 
+
+Which values of a in `P(x) = ax+b` produce a full cycle modulo N?
+
+Make sure a and N are relatively prime. (HCF is equal to one). Then full cycle
+is achievable.
+
+## Example
+
+```
+Table size = 9
+P(x) = 6x
+Max load factor = a = 0.667
+Threshold before resize = a*N = 0.66*9 = 6
+```
+We are likely to run into an infinite loop. (`HCF(6,9) = 3`)
+
+
+## FAQ
+
+* How to remove key value pairs from the hash table?
+
+Non trival
+
+
+# Quadratic Probing
+
+```
+P(x) = ax2 + bx + c
+```
+
+The constant `c` is obsolete.
+
+## How to avoid infinite loop?
+
+### One
+
+Let `P(x) = x^2`, keep the table size a prime > 3, keep `a < 0.5`
+
+### Two
+
+Let `P(x) = (x^2 + x)/2` and keep the table size a power of two.
+
+### Three
+
+Let `P(x) = (-1^x)*x^2` and keep the table size a prime N where N = 3 mod 4
+
+
+# Double hashing
+
+## What is double hashing?
+
+DH is a probing method which probes according to a constant multiple of another
+hash function.
+
+```
+P(k,x) = x*H2(k)
+```
+
+where H2(k) is a second hash function of the same type as the primary H(k)
+
+Note: It reduces to linear probing at runtime. Same problem of infinite loop as
+in linear probing.
+
+## How to avoid infinite loops?
+
+Pick table size a prime number. Let delta...
+
+```
+delta = H2(k) mod N
+```
+
+Then, if delta = 0, then we are guarenteed to be stuck in a cycle, so when this
+happens, set delta=1.
+
+
+Notice that 1<= delta <= N and HCF(delta,N) = 1, since N is prime. Hence, with
+these conditions, we know that modulo N the sequence...
+
+
+```
+H1(k), 
+H1(k)+1*delta, 
+H1(k)+2*delta, 
+H1(k)+3*delta
+...
+```
+is certain to have order N.
+
+## Construction of H2(k)
+
+Suppose the key k has type T
+
+Whenever we use DH, H2(k) should also be able to hash T.
+
+Systematic way of generation H2(k)? Universal hash functions.
+
+## Strategies to increase the table size
+
+Suppose load exceeded threshold,
+
+N needs to be doubled, but it won't be prime. Choose N to be the next prime
+number after 2*N
+
+# Removing elements from HT using Open Addressing
+
+## Issues with removing
+
+```
+insert(k1,v1)
+insert(k2,v2)
+insert(k3,v3)
+remove(k2)
+getValue(k3)
+```
+
+Let H(k1), H(k2), H(k3) = 1.
+
+Once removed k2, getValue(k3) will stop when probing reaches k2 as its value
+would be null.
+
+## Solution
+
+Place tombstone when removing elements, when searching, skip over the
+tombstone.
+
+
+## FAQ
+
+Tombstones count as filled, increasing the load factor. Kill all tombstones,
+only when resizeing the hashtable. When inserting, just replace the tombstone
+with a new key-value pair.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
