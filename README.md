@@ -1,5 +1,7 @@
 # Table Of Content
 
+[Link to original video by freeCodeCamp.org on YouTube](https://www.youtube.com/watch?v=RBSGKlAvoiM)
+
 [01-intro-and-complexity.md](01-intro-and-complexity.md)
 
 [02-static-and-dynamic-arrays.md](02-static-and-dynamic-arrays.md)
