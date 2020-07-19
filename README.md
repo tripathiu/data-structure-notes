@@ -22,3 +22,7 @@
 
 [11-suffix-arrays.md](11-suffix-arrays.md)
 
+[12-balanced-binary-search-trees.md](12-balanced-binary-search-trees.md)
+
+[13-indext-PQ.md](13-indext-PQ.md)
+
